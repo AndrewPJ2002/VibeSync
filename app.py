@@ -1,27 +1,31 @@
 from flask import Flask
-from views import views
-#from sqlalchemy import text
-from flask_sqlalchemy import SQLAlchemy
-
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from database import db  # Import the db instance
+from views import views  # Import blueprints after db
+import os
 
 
 #creates a application instance (handles requests and responses)
 app = Flask(__name__)
-
-#registers views.py as blueprint so routes are recognized
-app.register_blueprint(views)
 
 #supabase connection
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:TheCodeAlwaysWorks1234@db.lmkoozytmtjowzvwdafm.supabase.co:5432/postgres'
 # prevents performance warnings
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#app.config['SECRET_KEY'] = ''   
+# configute secret key
+app.config['SECRET_KEY'] = os.urandom(24)  # Generates a random secret key
 
-#initializes database in flask
-db = SQLAlchemy(app) 
+# Initialize extensions
+db.init_app(app)
+
+# Register blueprints AFTER db.init_app
+app.register_blueprint(views)
+
+# Ensure tables are created before running
+with app.app_context():
+    db.create_all()
 
 #runs application when executed; (debug = True) enables auto restart when code changes
 if __name__ == '__main__':

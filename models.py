@@ -1,6 +1,7 @@
 from app import db # import the databse 
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
+from database import db
 
 # this is to encrypt passwords
 bcrypt = Bcrypt()
@@ -9,7 +10,6 @@ bcrypt = Bcrypt()
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
 
     # hashes password and then decodes it into a string for storage
