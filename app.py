@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:TheCodeAlwaysWork
 # prevents performance warnings
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# configute secret key
+# config secret key
 app.config['SECRET_KEY'] = os.urandom(24)  # Generates a random secret key
 
 # Initialize extensions
