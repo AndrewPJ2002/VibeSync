@@ -12,7 +12,7 @@ def home():
 
 @views.route("/login", methods=['GET', 'POST'])
 def login():
-    from models import User
+    from models import Users
     
     if "user_id" in session:  # Prevent logged-in users from seeing login page
         return redirect(url_for("views.home"))
@@ -21,7 +21,7 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        user = User.query.filter_by(username=username).first()
+        user = Users.query.filter_by(username=username).first()
         
         if user and user.check_password(password):  # Ensure this function is properly implemented
             session["user_id"] = user.id  # Store user ID in session

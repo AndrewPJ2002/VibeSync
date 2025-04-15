@@ -10,7 +10,7 @@ import os
 app = Flask(__name__)
 
 #supabase connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:TheCodeAlwaysWorks1234@db.lmkoozytmtjowzvwdafm.supabase.co:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://vibesync:vibepassword@73.237.207.165:5400/vibesync'
 # prevents performance warnings
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
