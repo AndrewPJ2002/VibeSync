@@ -1,4 +1,3 @@
-from app import db # import the databse 
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
 from database import db

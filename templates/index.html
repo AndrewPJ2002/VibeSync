@@ -15,8 +15,17 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Contact</a></li>
-                <a href="{{ url_for('views.login') }}">Login</a>
             </ul>
+            {% if "user_id" in session %}
+                <p>logged in</p>
+                <a href="{{ url_for('views.logout') }}">Logout</a>
+            {% else %}
+                <p>not logged in</p>
+                <ul>
+                    <li><a href="{{ url_for('views.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('views.register') }}">Register</a></li>
+                </ul>
+            {% endif %}
         </nav>
     </header>
 
