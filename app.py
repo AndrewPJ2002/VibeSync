@@ -1,21 +1,20 @@
 from flask import Flask
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
 from database import db  # Import the db instance
 from views import views  # Import blueprints after db
 import os
 
-
-#creates a application instance (handles requests and responses)
+# creates a application instance (handles requests and responses)
 app = Flask(__name__)
 
-#supabase connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://vibesync:vibepassword@73.237.207.165:5400/vibesync'
+# supabase connection
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "postgresql://vibesync:vibepassword@73.237.207.165:5400/vibesync"
+)
 # prevents performance warnings
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # config secret key
-app.config['SECRET_KEY'] = os.urandom(24)  # Generates a random secret key
+app.config["SECRET_KEY"] = os.urandom(24)  # Generates a random secret key
 
 # Initialize extensions
 db.init_app(app)
@@ -27,6 +26,6 @@ app.register_blueprint(views)
 with app.app_context():
     db.create_all()
 
-#runs application when executed; (debug = True) enables auto restart when code changes
-if __name__ == '__main__':
+# runs application when executed; (debug = True) enables auto restart when code changes
+if __name__ == "__main__":
     app.run(debug=True, port=8000)

@@ -1,8 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from sqlalchemy.sql import select
 from database import db
-import random
+
+from models import User
 
 views = Blueprint("views", __name__)
+
 
 @views.route("/")
 def home():
@@ -10,20 +13,29 @@ def home():
     #     return redirect(url_for("views.login"))  # Redirect to login if not authenticated
     return render_template("index.html")
 
-@views.route("/login", methods=['GET', 'POST'])
+
+def get_user(username):
+    row = db.session.execute(select(User).where(User.username == username)).first()
+    if row is not None:
+        row = row.User
+
+    return row
+
+
+@views.route("/login", methods=["GET", "POST"])
 def login():
-    from models import Users
-    
     if "user_id" in session:  # Prevent logged-in users from seeing login page
         return redirect(url_for("views.home"))
 
-    if request.method == 'POST':
+    if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
-        user = Users.query.filter_by(username=username).first()
-        
-        if user and user.check_password(password):  # Ensure this function is properly implemented
+        user = get_user(username)
+
+        if user is not None and user.check_password(
+            password
+        ):  # Ensure this function is properly implemented
             session["user_id"] = user.id  # Store user ID in session
             flash("Login successful!", "success")
             return redirect(url_for("views.home"))
@@ -32,31 +44,35 @@ def login():
 
     return render_template("login.html")
 
-@views.route("/register", methods=['GET', 'POST'])
-def register():
-    from models import Users
 
+@views.route("/register", methods=["GET", "POST"])
+def register():
     if "user_id" in session:  # Prevent logged-in users from seeing login page
         return redirect(url_for("views.home"))
 
-    if request.method == 'POST':
+    if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
-        if not Users.query.filter_by(username=username).first():
-            new_user = Users(
-                username = username,
-            )
+        if username is not None and password is not None and get_user(username) is None:
+            new_user = User()
+            new_user.username = username
             new_user.set_password(password)
-            new_user.id = random.randint(0, 65536)
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for("views.home"))
 
     return render_template("registration.html")
 
+
 @views.route("/logout")
 def logout():
     session.pop("user_id", None)  # Remove user from session
     flash("Logged out successfully!", "info")
     return redirect(url_for("views.home"))
+
+
+@views.route("/playlists")
+def playlists():
+    test_playlists = [{"name": "1"}, {"name": "2"}]
+    return render_template("playlist.html", playlists=test_playlists)
