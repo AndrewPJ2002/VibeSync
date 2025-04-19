@@ -3,14 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VibeSync: playlist</title>
+    <title>VibeSync: playlists</title>
   </head>
   <body>
     <ul>
-    {% for song in playlist.songs %}
-      <li>
-        {{song.title}} - {{song.artist}}
-      </li>
+    {% for playlist in playlists %}
+      <li>{{ playlist.name }}</li>
     {% endfor %}
     </ul>
   </body>

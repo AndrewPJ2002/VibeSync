@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from sqlalchemy.sql import select
 from database import db
 
-from models import User
+from models import Playlist, User
 
 views = Blueprint("views", __name__)
 
@@ -72,7 +72,30 @@ def logout():
     return redirect(url_for("views.home"))
 
 
-@views.route("/playlists")
-def playlists():
-    test_playlists = [{"name": "1"}, {"name": "2"}]
-    return render_template("playlist.html", playlists=test_playlists)
+@views.route("/all-playlists")
+def user_playlists():
+    if "user_id" not in session:
+        return redirect(url_for("views.login"))
+
+    lists = (
+        db.session.execute(
+            select(Playlist).where(Playlist.creator_id == session["user_id"])
+        )
+        .scalars()
+        .all(),
+    )
+    print(lists)
+
+    return render_template("playlists.html", playlists=lists)
+
+
+@views.route("/playlist/<playlist_id>")
+def user_create_playlist(playlist_id):
+    if "user_id" not in session:
+        return redirect(url_for("views.login"))
+
+    row = db.session.execute(select(Playlist).where(Playlist.id == playlist_id)).first()
+    if row is None:
+        return redirect(url_for("views.user_playlists"))
+
+    return render_template("playlist.html", playlist=row.Playlist)

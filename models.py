@@ -43,6 +43,7 @@ class Song(db.Model):
     __tablename__ = "songs"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    spotify_id: Mapped[str] = mapped_column(nullable=True)
     artist: Mapped[str] = mapped_column(nullable=False)
     title: Mapped[str] = mapped_column(nullable=False)
 
