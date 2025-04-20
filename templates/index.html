@@ -18,6 +18,7 @@
             </ul>
             {% if "user_id" in session %}
                 <p>logged in</p>
+                <p><a href="{{ url_for('views.user_playlists') }}">View My Playlists</a></p>
                 <a href="{{ url_for('views.logout') }}">Logout</a>
             {% else %}
                 <p>not logged in</p>
@@ -30,10 +31,6 @@
     </header>
 
     <main>
-        <section>
-            <h2>About This Page</h2>
-            <p>This is a basic HTML boilerplate for starting a new project.</p>
-        </section>
     </main>
 
     <footer>
