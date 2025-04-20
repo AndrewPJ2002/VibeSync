@@ -69,3 +69,18 @@ def search_tracks(name):
         songs.append(song)
 
     return songs
+
+
+def get_track(id):
+    res = requests.get(
+        f"https://api.spotify.com/v1/tracks/{id}",
+        headers=spotify_headers(),
+    )
+
+    track = res.json()
+    song = Song()
+    song.spotify_id = track["id"]
+    song.title = track["name"]
+    song.artist = track["artists"][0]["name"]
+
+    return song

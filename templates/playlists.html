@@ -6,10 +6,13 @@
     <title>VibeSync: playlists</title>
   </head>
   <body>
+    <h2>Your Playlists</h2>
     <ul>
     {% for playlist in playlists %}
-      <li>{{ playlist.name }}</li>
+      <li><a href="{{ url_for('views.get_playlist', playlist_id=playlist.id) }}">{{ playlist.name }}</li>
     {% endfor %}
     </ul>
+    <a href="{{ url_for('views.user_create_playlist') }}">Create New Playlist</a>
+    <a href="{{ url_for('views.home') }}">Return Home</a>
   </body>
 </html>

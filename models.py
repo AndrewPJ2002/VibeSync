@@ -52,6 +52,7 @@ class Playlist(db.Model):
     __tablename__ = "playlists"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(nullable=False)
     creator: Mapped[User] = relationship()
     creator_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     songs: Mapped[List[Song]] = relationship(secondary=playlist_songs)

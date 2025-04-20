@@ -6,6 +6,8 @@
     <title>VibeSync: playlist</title>
   </head>
   <body>
+    <h2>{{ playlist.name }}</h2>
+    <h3>by {{ playlist.creator.username }}</h3>
     <ul>
     {% for song in playlist.songs %}
       <li>
@@ -13,5 +15,11 @@
       </li>
     {% endfor %}
     </ul>
+    {% if owner %}
+    <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id) }}">Modify playlist</a>
+    <a href="{{ url_for('views.user_playlists') }}">Return to all playlists</a>
+    {% else %}
+    <a href="{{ url_for('views.home') }}">Return home</a>
+    {% endif %}
   </body>
 </html>

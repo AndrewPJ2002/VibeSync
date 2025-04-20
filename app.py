@@ -1,7 +1,5 @@
 from flask import Flask
-from sqlalchemy.util import b64encode
 from database import db  # Import the db instance
-from spotify import search_tracks
 from views import views  # Import blueprints after db
 import os
 
