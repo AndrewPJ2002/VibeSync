@@ -191,6 +191,35 @@ def search_song():
     return render_template("search.html", songs=tracks, playlist=plist)
 
 
+@views.route("/song/mood/<song_id>", methods=["GET", "POST"])
+def song_mood(song_id):
+    row = db.session.execute(select(Song).where(Song.id == song_id)).first()
+    if row is None:
+        return redirect(url_for("views.home"))
+
+    song = row.Song
+
+    if request.method == "POST":
+        mood = request.form.get("mood")
+        if mood is not None:
+            song.mood = mood
+            db.session.commit()
+            if "redirect_playlist" in request.args:
+                return redirect(
+                    url_for(
+                        "views.show_playlist",
+                        playlist_id=request.args["redirect_playlist"],
+                    )
+                )
+            return redirect(url_for("views.user_playlists"))
+
+    return render_template(
+        "mood.html",
+        song=song,
+        redirect_playlist=request.args.get("redirect_playlist"),
+    )
+
+
 @views.route("/playlist/add/<int:playlist_id>", methods=["POST"])
 def add_song(playlist_id):
     if "user_id" not in session:
@@ -219,6 +248,11 @@ def add_song(playlist_id):
 
     plist.songs.append(song)
     db.session.commit()
+
+    if song.mood is None:
+        return redirect(
+            url_for("views.song_mood", song_id=song.id, redirect_playlist=plist.id)
+        )
 
     return redirect(url_for("views.show_playlist", playlist_id=plist.id))
 

@@ -46,6 +46,7 @@ class Song(db.Model):
     spotify_id: Mapped[str] = mapped_column(nullable=True)
     artist: Mapped[str] = mapped_column(nullable=False)
     title: Mapped[str] = mapped_column(nullable=False)
+    mood: Mapped[str] = mapped_column()
 
 
 class Playlist(db.Model):
