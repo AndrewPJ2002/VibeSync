@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VibeSync: Song Mood</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VibeSync</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    <h2>Song Mood</h2>
-    <h4>{{ song.title }} - {{ song.artist }}</h4>
-    <form action="{{ url_for('views.song_mood', song_id=song.id, redirect_playlist=redirect_playlist) }}" method="POST">
-      <input type="radio" name="mood" value="happy" id="happy">
-      <label for="happy">Happy</label>
-      <input type="radio" name="mood" value="sad" id="sad">
-      <label for="sad">Sad</label>
-      <input type="radio" name="mood" value="energetic" id="energetic">
-      <label for="energetic">energetic</label>
-      <input type="radio" name="mood" value="calm" id="calm">
-      <label for="calm">calm</label>
-      <button type="submit">Choose Mood</button>
+    <h2>Pick a Mood</h2>
+    <form method="POST">
+      <div class="mood-options">
+        <input type="radio" name="mood" value="happy" id="happy" hidden>
+        <label for="happy">Happy</label>
+
+        <input type="radio" name="mood" value="sad" id="sad" hidden>
+        <label for="sad">Sad</label>
+
+        <input type="radio" name="mood" value="energetic" id="energetic" hidden>
+        <label for="energetic">Energetic</label>
+
+        <input type="radio" name="mood" value="calm" id="calm" hidden>
+        <label for="calm">Calm</label>
+      </div>
+      <button type="submit">Submit</button>
     </form>
   </body>
 </html>
