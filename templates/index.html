@@ -8,30 +8,22 @@
 </head>
 <body>
 
-    <header>
-        <h1>VibeSync</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+    <header class="header">
+        <h1 class="logo">VibeSync</h1>
+        <nav class="tabs">
             {% if "user_id" in session %}
-                <p>logged in</p>
-                <p><a href="{{ url_for('views.user_playlists') }}">View My Playlists</a></p>
-                <a href="{{ url_for('views.logout') }}">Logout</a>
+                <div class="tab-links">
+                    <a href="{{ url_for('views.user_playlists') }}">View My Playlists</a>
+                    <a href="{{ url_for('views.logout') }}">Logout</a>
+                </div>
             {% else %}
-                <p>not logged in</p>
                 <ul>
                     <li><a href="{{ url_for('views.login') }}">Login</a></li>
-                    <li><a href="{{ url_for('views.register') }}">Register</a></li>
                 </ul>
             {% endif %}
         </nav>
+        
     </header>
-
-    <main>
-    </main>
 
     <footer>
         <p>&copy; 2025 VibeSync. All rights reserved.</p>

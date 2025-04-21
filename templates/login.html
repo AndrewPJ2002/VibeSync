@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>VibeSync: login</title>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - VibeSync</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <section id="login" class="form-container">
         <h2>Login</h2>
-        <form action="{{ url_for('views.login') }}" method="POST">
+        <form action="{{ url_for('views.login') }}" method="POST" id="login-form">
+
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
+            <button type="submit" class="btn">Login</button>
         </form>
-        <a href="{{ url_for('views.register') }}">Register an account</a>
-    </body>
+
+        <p style="margin-top: 15px;">
+            Don't have an account?
+            <a href="{{ url_for('views.register') }}" style="color: #1a9ded;">Register here</a>
+        </p>
+    </section>
+
+</body>
 </html>

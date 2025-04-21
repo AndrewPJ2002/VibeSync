@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VibeSync: playlists</title>
-  </head>
-  <body>
-    <h2>Your Playlists</h2>
-    <ul>
-    {% for playlist in playlists %}
-      <li><a href="{{ url_for('views.get_playlist', playlist_id=playlist.id) }}">{{ playlist.name }}</li>
-    {% endfor %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VibeSync: Playlists</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>Playlists</h2>
+    
+    <!-- Playlist list -->
+    <ul class="playlist-list">
+      {% for playlist in playlists %}
+        <li>
+          <a href="{{ url_for('views.get_playlist', playlist_id=playlist.id) }}">{{ playlist.name }}</a>
+        </li>
+      {% endfor %}
     </ul>
-    <a href="{{ url_for('views.user_create_playlist') }}">Create New Playlist</a>
-    <a href="{{ url_for('views.home') }}">Return Home</a>
-  </body>
+
+    <!-- Action buttons -->
+    <div class="actions">
+      <a href="{{ url_for('views.user_create_playlist') }}" class="btn btn-action">Create New Playlist</a>
+      <a href="{{ url_for('views.home') }}" class="btn btn-action">Return Home</a>
+    </div>
+  </div>
+</body>
 </html>
