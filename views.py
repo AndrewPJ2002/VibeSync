@@ -14,12 +14,20 @@ def home():
     return render_template("index.html")
 
 
-def get_user(username):
+def get_user(username: str) -> User | None:
     row = db.session.execute(select(User).where(User.username == username)).first()
-    if row is not None:
-        row = row.User
+    if row is None:
+        return None
 
-    return row
+    return row.User
+
+
+def get_playlist(id: str | int) -> Playlist | None:
+    row = db.session.execute(select(Playlist).where(Playlist.id == id)).first()
+    if row is None:
+        return None
+
+    return row.Playlist
 
 
 @views.route("/login", methods=["GET", "POST"])
@@ -30,6 +38,9 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+
+        if username is None or password is None:
+            return render_template("login.html")
 
         user = get_user(username)
 
@@ -89,11 +100,10 @@ def user_playlists():
 
 
 @views.route("/playlist/<int:playlist_id>")
-def get_playlist(playlist_id):
-    row = db.session.execute(select(Playlist).where(Playlist.id == playlist_id)).first()
-    if row is None:
+def show_playlist(playlist_id):
+    plist = get_playlist(playlist_id)
+    if plist is None:
         return "playlist not found", 404
-    plist = row.Playlist
 
     if "user_id" in session:
         owner = plist.creator_id == session["user_id"]
@@ -133,11 +143,9 @@ def user_delete_playlist(playlist_id):
     if "user_id" not in session:
         return redirect(url_for("views.home"))
 
-    row = db.session.execute(select(Playlist).where(Playlist.id == playlist_id)).first()
-    if row is None:
+    plist = get_playlist(playlist_id)
+    if plist is None:
         return "playlist not found", 404
-
-    plist = row.Playlist
 
     if plist.creator_id != session["user_id"]:
         return "forbidden", 403
@@ -154,12 +162,9 @@ def user_modify_playlist(playlist_id, action=None):
     if "user_id" not in session:
         return redirect(url_for("views.login"))
 
-    row = db.session.execute(select(Playlist).where(Playlist.id == playlist_id)).first()
-
-    if row is None:
+    plist = get_playlist(playlist_id)
+    if plist is None:
         return "playlist not found", 404
-
-    plist = row.Playlist
 
     if plist.creator_id != session["user_id"]:
         return "forbidden", 403
@@ -176,14 +181,14 @@ def search_song():
     if name is None or playlist_id is None or "user_id" not in session:
         return redirect(url_for("views.home"))
 
-    row = db.session.execute(select(Playlist).where(Playlist.id == playlist_id)).first()
+    plist = get_playlist(playlist_id)
 
-    if row is None or row.Playlist.creator_id != session["user_id"]:
+    if plist is None or plist.creator_id != session["user_id"]:
         return redirect(url_for("views.home"))
 
     tracks = search_tracks(name)
 
-    return render_template("search.html", songs=tracks, playlist=row.Playlist)
+    return render_template("search.html", songs=tracks, playlist=plist)
 
 
 @views.route("/playlist/add/<int:playlist_id>", methods=["POST"])
@@ -196,12 +201,10 @@ def add_song(playlist_id):
     if spotify_id is None:
         return "forbidden", 403
 
-    row = db.session.execute(select(Playlist).where(Playlist.id == playlist_id)).first()
+    plist = get_playlist(playlist_id)
 
-    if row is None:
+    if plist is None:
         return "playlist not found", 404
-
-    plist = row.Playlist
 
     if plist.creator_id != session["user_id"]:
         return "forbidden", 403
@@ -217,4 +220,28 @@ def add_song(playlist_id):
     plist.songs.append(song)
     db.session.commit()
 
-    return redirect(url_for("views.get_playlist", playlist_id=plist.id))
+    return redirect(url_for("views.show_playlist", playlist_id=plist.id))
+
+
+@views.route("/playlist/remove/<int:playlist_id>", methods=["POST"])
+def remove_song(playlist_id):
+    if "user_id" not in session:
+        return redirect(url_for("views.home"))
+
+    spotify_id = request.form.get("spotify_id")
+
+    if spotify_id is None:
+        return "forbidden", 403
+
+    plist = get_playlist(playlist_id)
+
+    if plist is None:
+        return "playlist not found", 404
+
+    for song in plist.songs:
+        if song.spotify_id == spotify_id:
+            plist.songs.remove(song)
+            db.session.commit()
+            break
+
+    return redirect(url_for("views.show_playlist", playlist_id=plist.id))
