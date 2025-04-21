@@ -468,12 +468,14 @@ body {
   }
   
   .mood-options label:hover {
-    background-color: #1073cb;
+    background-color: #107ddd;
   }
   
   input[type="radio"]:checked + label {
-    background-color: #4caf50;
+    background-color: #1d72bc;
     color: white;
     border-color: #388e3c;
   }
+  
+
   
