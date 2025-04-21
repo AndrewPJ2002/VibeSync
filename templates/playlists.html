@@ -9,15 +9,15 @@
 <body>
   <div class="container">
     <h2>Playlists</h2>
-    
-    <!-- Playlist list -->
-    <ul class="playlist-list">
+
+    <!-- Scrollable Playlist List -->
+    <div class="scrollable-playlists">
       {% for playlist in playlists %}
-        <li>
-          <a href="{{ url_for('views.get_playlist', playlist_id=playlist.id) }}">{{ playlist.name }}</a>
-        </li>
+        <a class="playlist-item" href="{{ url_for('views.get_playlist', playlist_id=playlist.id) }}">
+          {{ playlist.name }}
+        </a>
       {% endfor %}
-    </ul>
+    </div>
 
     <!-- Action buttons -->
     <div class="actions">
