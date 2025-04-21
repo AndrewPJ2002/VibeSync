@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from sqlalchemy import delete
+from sqlalchemy import delete, func
 from sqlalchemy.sql import select
 from database import db
 
@@ -218,6 +218,25 @@ def song_mood(song_id):
         song=song,
         redirect_playlist=request.args.get("redirect_playlist"),
     )
+
+
+@views.route("/recommendations")
+def recommendations():
+    if "mood" not in request.args:
+        return render_template("recommendation.html")
+
+    songs = (
+        db.session.execute(
+            select(Song)
+            .where(Song.mood == request.args["mood"])
+            .limit(10)
+            .order_by(func.random())
+        )
+        .scalars()
+        .all()
+    )
+
+    return render_template("recommendation.html", songs=songs)
 
 
 @views.route("/playlist/add/<int:playlist_id>", methods=["POST"])

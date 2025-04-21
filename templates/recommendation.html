@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VibeSync: Recommendation</title>
+  </head>
+  <body>
+    <h2>Recommendations</h2>
+    {% if songs %}
+      <ul class="song-list">
+        {% for song in songs %}
+          <li>
+            {{ song.title }} - {{ song.artist }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <form action="{{ url_for('views.recommendations') }}">
+      <input type="radio" name="mood" value="happy" id="happy">
+      <label for="happy">Happy</label>
+      <input type="radio" name="mood" value="sad" id="sad">
+      <label for="sad">Sad</label>
+      <input type="radio" name="mood" value="energetic" id="energetic">
+      <label for="energetic">energetic</label>
+      <input type="radio" name="mood" value="calm" id="calm">
+      <label for="calm">calm</label>
+      <button type="submit">Choose Mood</button>
+    </form>
+    {% endif %}
+  </body>
+</html>
