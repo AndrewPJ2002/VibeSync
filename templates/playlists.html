@@ -13,9 +13,7 @@
     <!-- Scrollable Playlist List -->
     <div class="scrollable-playlists">
       {% for playlist in playlists %}
-        <a class="playlist-item" href="{{ url_for('views.get_playlist', playlist_id=playlist.id) }}">
-          {{ playlist.name }}
-        </a>
+      <a class="playlist-item" href="{{ url_for('views.show_playlist', playlist_id=playlist.id) }}">{{ playlist.name }}</a>
       {% endfor %}
     </div>
 

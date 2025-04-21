@@ -34,8 +34,8 @@ class User(db.Model, UserMixin):
 playlist_songs = Table(
     "playlist_songs",
     db.Model.metadata,
-    Column("playlist_id", Integer, ForeignKey("playlists.id")),
-    Column("song_id", Integer, ForeignKey("songs.id")),
+    Column("playlist_id", Integer, ForeignKey("playlists.id", ondelete="CASCADE")),
+    Column("song_id", Integer, ForeignKey("songs.id", ondelete="CASCADE")),
 )
 
 
@@ -55,4 +55,6 @@ class Playlist(db.Model):
     name: Mapped[str] = mapped_column(nullable=False)
     creator: Mapped[User] = relationship()
     creator_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    songs: Mapped[List[Song]] = relationship(secondary=playlist_songs)
+    songs: Mapped[List[Song]] = relationship(
+        secondary=playlist_songs, cascade="all,delete"
+    )
