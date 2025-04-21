@@ -3,32 +3,38 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VibeSync: modify playlist</title>
+    <title>VibeSync: Modify Playlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Link to your CSS -->
   </head>
   <body>
-    <h2>Modify {{ playlist.name }}</h2>
-    {% if action == "delete" %}
-    <h3>Delete confirmation</h3>
-    <form action="{{ url_for('views.user_delete_playlist', playlist_id=playlist.id) }}" method="POST">
-      <button type="submit">Delete Playlist</button>
-    </form>
-    <a href="{{ url_for('views.user_playlists', playlist_id=playlist.id) }}">Return to playlists<a>
-    <!-- {% elif aciton == "rename" %} -->
-    {% elif action == "add-song" %}
-    <h3>Search for song</h3>
-    <form action="{{ url_for('views.search_song') }}" method="POST">
-      <label for="title">Song Title</label>
-      <input type="text" name="name" required />
-      <input type="hidden" name="playlist_id" value="{{ playlist.id }}" />
-      <button type="submit">Search</button>
-    </form>
-    <a href="{{ url_for('views.user_playlists') }}">Return to playlists<a>
-    {% else %}
-    <h3>Actions</h3>
-    <!-- <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='rename')}}">Rename Playlist</a> -->
-    <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='add-song')}}">Add Songs</a>
-    <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='remove-song')}}">Remove Songs</a>
-    <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='delete')}}">Delete Playlist</a>
-    {% endif %}
+    <div class="container">
+      <h2>Modify {{ playlist.name }}</h2>
+
+      {% if action == "delete" %}
+        <h3>Delete Confirmation</h3>
+        <form action="{{ url_for('views.user_delete_playlist', playlist_id=playlist.id) }}" method="POST">
+          <button type="submit" class="btn">Delete Playlist</button>
+        </form>
+        <a href="{{ url_for('views.user_playlists') }}" class="btn">Return to Playlists</a>
+        
+      {% elif action == "add-song" %}
+        <h3>Search for Song</h3>
+        <form action="{{ url_for('views.search_song') }}" method="POST">
+          <label for="title">Song Title</label>
+          <input type="text" name="name" required />
+          <input type="hidden" name="playlist_id" value="{{ playlist.id }}" />
+          <button type="submit" class="btn">Search</button>
+        </form>
+        <a href="{{ url_for('views.user_playlists') }}" class="btn">Return to Playlists</a>
+
+      {% else %}
+        <h3>Actions</h3>
+        <div class="action-buttons">
+          <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='add-song') }}" class="btn">Add Songs</a>
+          <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='remove-song') }}" class="btn">Remove Songs</a>
+          <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id, action='delete') }}" class="btn">Delete Playlist</a>
+        </div>
+      {% endif %}
+    </div>
   </body>
 </html>

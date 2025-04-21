@@ -3,18 +3,27 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VibeSync: search</title>
+    <title>VibeSync: Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    <h2>Search Results</h2>
-    <form action="{{ url_for('views.add_song', playlist_id=playlist.id) }}", method="POST">
-    {% for song in songs %}
-      <input type="radio" name="spotify_id" id="{{ song.spotify_id }}" value="{{ song.spotify_id }}">
-      <label for="{{ song.spotify_id }}">
-        {{song.title}} - {{song.artist}}
-      </label>
-    {% endfor %}
-      <button type="submit">Add Song</button>
-    </form>
+    <div class="search-container">
+      <h2>Search Results</h2>
+      <form action="{{ url_for('views.add_song', playlist_id=playlist.id) }}" method="POST">
+        
+        <div class="song-list">
+          {% for song in songs %}
+            <div class="song-item">
+              <input type="radio" name="spotify_id" id="{{ song.spotify_id }}" value="{{ song.spotify_id }}">
+              <label for="{{ song.spotify_id }}">
+                {{ song.title }} - {{ song.artist }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+
+        <button type="submit" class="btn">Add Song</button>
+      </form>
+    </div>
   </body>
 </html>

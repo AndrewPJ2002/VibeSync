@@ -3,23 +3,30 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VibeSync: playlist</title>
+    <title>VibeSync: Playlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    <h2>{{ playlist.name }}</h2>
-    <h3>by {{ playlist.creator.username }}</h3>
-    <ul>
-    {% for song in playlist.songs %}
-      <li>
-        {{song.title}} - {{song.artist}}
-      </li>
-    {% endfor %}
-    </ul>
-    {% if owner %}
-    <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id) }}">Modify playlist</a>
-    <a href="{{ url_for('views.user_playlists') }}">Return to all playlists</a>
-    {% else %}
-    <a href="{{ url_for('views.home') }}">Return home</a>
-    {% endif %}
+    <div class="playlist-container">
+      <h2>{{ playlist.name }}</h2>
+      <h3>by {{ playlist.creator.username }}</h3>
+      
+      <ul class="song-list">
+        {% for song in playlist.songs %}
+          <li>
+            {{ song.title }} - {{ song.artist }}
+          </li>
+        {% endfor %}
+      </ul>
+
+      {% if owner %}
+        <div class="playlist-actions">
+          <a href="{{ url_for('views.user_modify_playlist', playlist_id=playlist.id) }}" class="btn">Modify Playlist</a>
+          <a href="{{ url_for('views.user_playlists') }}" class="btn">Return to All Playlists</a>
+        </div>
+      {% else %}
+        <a href="{{ url_for('views.home') }}" class="btn">Return Home</a>
+      {% endif %}
+    </div>
   </body>
 </html>

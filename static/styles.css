@@ -157,31 +157,47 @@ form input {
 
 /* for playlists */
 
-/* Scrollable Playlists */
+/* Scrollable Horizontal Playlists */
 .scrollable-playlists {
-    max-height: 300px; /* Set height limit for scrollable area */
-    overflow-y: auto;  /* Enables vertical scrolling */
-    margin-bottom: 30px; /* Space below the list */
-    padding: 0;
     display: flex;
-    flex-direction: column;
-    gap: 10px; /* Space between playlist items */
+    gap: 15px; /* Space between playlist items */
+    overflow-x: auto;  /* Enables horizontal scrolling */
+    padding-bottom: 10px; /* Prevents the scrollbar from covering the last item */
+    margin-bottom: 30px; /* Space below the list */
   }
   
   .playlist-item {
-    display: inline-block;
     background-color: #2182e3; /* Brighter blue for playlist links */
     color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
+    padding: 20px 30px;
+    border-radius: 10px;
     font-size: 16px;
     text-decoration: none;
+    min-width: 180px; /* Minimum width for each item to make it boxy */
+    display: flex;
+    justify-content: center; /* Centers the text */
+    align-items: center; /* Vertically centers the text */
     transition: background-color 0.2s ease;
   }
   
   .playlist-item:hover {
     background-color: #094a87; /* Slightly darker on hover */
   }
+  
+  /* Optional: Customize scrollbar appearance */
+  .scrollable-playlists::-webkit-scrollbar {
+    height: 8px; /* Height of the scrollbar */
+  }
+  
+  .scrollable-playlists::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+  }
+  
+  .scrollable-playlists::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
   
 
 body {
@@ -251,3 +267,186 @@ h2 {
 .btn:hover {
     background-color: #106dbe;
 }
+
+
+/* Container for the Modify Playlist page */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    color: white;
+  }
+  
+  /* Heading Styling */
+  h2, h3 {
+    color: #2aa8f2;
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  /* Button styling for various actions */
+  .btn {
+    background-color: #0e2e73;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+    margin: 10px;
+    display: inline-block;
+  }
+  
+  .btn:hover {
+    background-color: #106dbe;
+  }
+  
+  /* Styling for the action buttons group */
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  /* Input fields and labels */
+  form input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    border: none;
+    border-radius: 5px;
+    background-color: #eef2ff;
+    margin-bottom: 10px;
+  }
+  
+  form label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  /* Optional styling for form headers */
+  form h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+/* General Playlist Styling */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 40px;
+  }
+  
+  .playlist-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h2 {
+    color: #2aa8f2;
+    font-size: 32px;
+  }
+  
+  h3 {
+    color: #b3b3b3;
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+  
+  .song-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 30px;
+  }
+  
+  .song-list li {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #fff;
+    text-align: left;
+  }
+  
+  .playlist-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .btn {
+    background-color: #0e2e73;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn:hover {
+    background-color: #106dbe;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  /* General Styling */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .search-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    color: #2aa8f2;
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+  
+  .song-list {
+    margin-bottom: 30px;
+  }
+  
+  .song-item {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .song-item label {
+    cursor: pointer;
+    padding-left: 10px;
+  }
+  
+  input[type="radio"] {
+    cursor: pointer;
+  }
+  
+  button[type="submit"] {
+    padding: 12px 20px;
+    background-color: #0e2e73;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #106dbe;
+  }
+  
